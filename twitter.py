@@ -83,7 +83,23 @@ def mentions(user_id):
     return mentions_dict
 
 #Reverse chronological home timeline
-#Create a function 
+#Create a function that enables you to retrieve user Tweet timeline endpoint provides access to Tweets published by a specific Twitter account.
+def timeline(user_id):
+    timeline = api.get_timelines(user_id= user_id)
+
+    timeline_dict = {}
+
+    id = []
+    tweets = []
+
+    for line in timeline.data:
+        id.append(line.id)
+        tweets.append(line.text)
+
+    timeline_dict['id'] = id
+    timeline_dict['text'] = tweets
+
+    return timeline_dict
 
 #creating the database
 engine = db.create_engine('sqlite:///Twitter.db')
@@ -92,6 +108,7 @@ engine = db.create_engine('sqlite:///Twitter.db')
 Following_data = pd.DataFrame.from_dict(following(user_id))
 Followers_data = pd.DataFrame.from_dict(followers(user_id))
 Mentions_data = pd.DataFrame.from_dict(mentions(user_id))
+HomeTimeline_data = pd.DataFrame.from_dict(timeline(user_id))
 
 #inserting the following dataframe as a table
 Following_data.to_sql('Following', con=engine, if_exists='replace', index=False)
@@ -110,11 +127,31 @@ Mentions_data.to_sql('Mentions', con=engine, if_exists='replace', index=False)
 r = engine.execute("SELECT * FROM Mentions;").fetchall()
 m = pd.DataFrame(r)
 m.columns = ['ID', 'TEXT']
-print(m)
+
+#inserting the timeline dataframe as a table
+HomeTimeline_data.to_sql('HomeTimeline', con=engine, if_exists='replace', index=False)
+r = engine.execute("SELECT * FROM HomeTimeline;").fetchall()
+t = pd.DataFrame(r)
+t.columns = ['ID', 'TEXT']
+#print(t)
 
 #print(df)
 #print(fw)
 #print(m)
 
+def main():
+  print("What information would you like to retrieve for this user? ")
+  prompt = input("Enter 1 for following, 2 for followers, 3 for mentions, 4 for timeline: ")
 
+  if prompt == '1':
+    print(df)
+  elif prompt == '2':
+    print(fw)
+  elif prompt == '3':
+    print(m)
+  elif prompt == '4':
+    print(t)
+  else:
+    print("Invalid input \n ")
 
+main()
