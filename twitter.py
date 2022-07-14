@@ -4,10 +4,10 @@ import pprint
 import sqlalchemy as db
 import pandas as pd
 
-consumer_keys = "tuxbNezcLxipie3VWHXprS2sc"
-consumer_secret = "NFBht0B5kYJSQTCBygntaHmN3SMyfQifjvhycE0pLyl5mE3smr"
-access_token = "1406163817386721280-xv4imJGyBTVZ0F2HefzzCUCBBIULqU"
-access_secret = "zFHPUgQgZELUVRO30QruMGo2n6SGqHPy6JJM7bpkyIBwm"
+consumer_keys = "Consumer Keys"
+consumer_secret = "Consumer Secrets"
+access_token = "Access Token"
+access_secret = "Access Secret"
 
 
 api = Api(consumer_key = consumer_keys, consumer_secret = consumer_secret, access_token = access_token, access_secret = access_secret)
